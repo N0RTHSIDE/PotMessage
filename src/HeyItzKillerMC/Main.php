@@ -11,20 +11,20 @@ use pocketmine\item\Item;
 
 class Main extends PluginBase implements Listener{
 
-    public function onEnable(){
+    public function onEnable(): void{
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
     }
 
-    public function onPlayerDeath(PlayerDeathEvent $event){
+    public function onPlayerDeath(PlayerDeathEvent $event): void{
         $player = $event->getPlayer();
         $looser = $player->getName();
-        $looser_pots = count($player->getInventory()->all(\pocketmine\item\Item::get(438, 22))); // 438:22 is the item ID of the potion
+        $looser_pots = count($player->getInventory()->all(Item::get(438, 22))); // 438:22 is the item ID of the potion
 
         $cause = $player->getLastDamageCause();
 
         if($cause instanceof EntityDamageByEntityEvent){
             $killer = $cause->getDamager();
-            $killer_pots = count($killer->getInventory()->all(\pocketmine\item\Item::get(438, 22)));
+            $killer_pots = count($killer->getInventory()->all(Item::get(438, 22)));
             $message = TextFormat::GREEN . $killer->getName() . TextFormat::DARK_GREEN . "[" . $killer_pots . "] " . TextFormat::GRAY . "killed " . TextFormat::RED . $looser . TextFormat::DARK_RED . "[" . $looser_pots . "]";
             $this->getServer()->broadcastMessage($message);
         }
