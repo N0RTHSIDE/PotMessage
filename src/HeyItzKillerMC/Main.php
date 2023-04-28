@@ -1,42 +1,32 @@
 <?php
 
-namespace MyPlugin;
+namespace HeyItzKillerMC;
 
-use pocketmine\event\Listener;
-use pocketmine\event\player\PlayerDeathEvent;
-use pocketmine\item\Item;
-use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
+use pocketmine\event\Listener;
+use pocketmine\event\entity\EntityDamageByEntityEvent;
+use pocketmine\event\player\PlayerDeathEvent;
+use pocketmine\utils\TextFormat;
+use pocketmine\item\Item;
 
-class MyPlugin extends PluginBase implements Listener {
+class Main extends PluginBase implements Listener{
 
-    public function onEnable() {
+    public function onEnable(){
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
     }
 
-    public function onPlayerDeath(PlayerDeathEvent $event) {
+    public function onPlayerDeath(PlayerDeathEvent $event){
         $player = $event->getPlayer();
+        $looser = $player->getName();
+        $looser_pots = count($player->getInventory()->all(\pocketmine\item\Item::get(438, 22))); // 438:22 is the item ID of the potion
+
         $cause = $player->getLastDamageCause();
 
-        if ($cause instanceof EntityDamageByEntityEvent) {
+        if($cause instanceof EntityDamageByEntityEvent){
             $killer = $cause->getDamager();
-
-            if ($killer instanceof Player) {
-                $killerName = $killer->getName();
-                $killerPots = $killer->getInventory()->getContents()[Item::SPLASH_POTION] ?? 0;
-
-                $playerName = $player->getName();
-                $playerPots = $player->getInventory()->getContents()[Item::SPLASH_POTION] ?? 0;
-
-                $message = $this->formatMessage($killerName, $killerPots, $playerName, $playerPots);
-                $this->getServer()->broadcastMessage($message);
-            }
+            $killer_pots = count($killer->getInventory()->all(\pocketmine\item\Item::get(438, 22)));
+            $message = TextFormat::GREEN . $killer->getName() . TextFormat::DARK_GREEN . "[" . $killer_pots . "] " . TextFormat::GRAY . "killed " . TextFormat::RED . $looser . TextFormat::DARK_RED . "[" . $looser_pots . "]";
+            $this->getServer()->broadcastMessage($message);
         }
     }
-
-    private function formatMessage($killerName, $killerPots, $playerName, $playerPots) {
-        $message = "§a" . $killerName . "§2[" . $killerPots . "]§r killed §7" . $playerName . "§4[" . $playerPots . "]§r";
-        return $message;
-    }
-
 }
