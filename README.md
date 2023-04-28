@@ -1,2 +1,3 @@
 # PotMessage
- Basic PotMessage plugin coded in PHP - PM3
+Basic PotMessage plugin coded in PHP
+**PM3 API**
