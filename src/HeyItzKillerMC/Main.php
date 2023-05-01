@@ -26,7 +26,7 @@ class Main extends PluginBase implements Listener{
             $killer = $cause->getDamager();
             $killer_pots = count($killer->getInventory()->all(\pocketmine\item\Item::get(438, 22)));
             $message = TextFormat::GREEN . $killer->getName() . TextFormat::DARK_GREEN . "[" . $killer_pots . "] " . TextFormat::GRAY . "killed " . TextFormat::RED . $looser . TextFormat::DARK_RED . "[" . $looser_pots . "]";
-            $this->getServer()->broadcastMessage($message);
+            $event->setDeathMessage($message);
         }
     }
 }
