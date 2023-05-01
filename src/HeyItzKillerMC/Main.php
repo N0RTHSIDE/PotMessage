@@ -5,14 +5,14 @@ namespace HeyItzKillerMC;
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\Listener;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
-use pocketmine\event\entity\PlayerDeathEvent;
+use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\utils\TextFormat;
 use pocketmine\item\ItemFactory;
 
 class Main extends PluginBase implements Listener{
 
-    public function onEnable(){
-        $this->getServer()->getPluginManager()->registerEvent(PlayerDeathEvent::class, $this);
+    public function onEnable() : void {
+        $this->getServer()->getPluginManager()->registerEvents($this, $this);
     }
 
     public function onPlayerDeath(PlayerDeathEvent $event){
@@ -26,7 +26,7 @@ class Main extends PluginBase implements Listener{
             $killer = $cause->getDamager();
             $killer_pots = count($killer->getInventory()->all(ItemFactory::getInstance()->get(438, 22)));
             $message = TextFormat::GREEN . $killer->getName() . TextFormat::DARK_GREEN . "[" . $killer_pots . "] " . TextFormat::GRAY . "killed " . TextFormat::RED . $looser . TextFormat::DARK_RED . "[" . $looser_pots . "]";
-            $this->getServer()->broadcastMessage($message);
+            $event->setDeathMessage($message);
         }
     }
 }
