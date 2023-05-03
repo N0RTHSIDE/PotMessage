@@ -1,7 +1,8 @@
 ---
-name: "PotMessage"
+name: PotMessage
 main: HeyItzKillerMC\Main
 api: 4.0.0
 version: 1.0
-author: "HeyItzKillerMC"
+author: HeyItzKillerMC
+description: A basic Pot Message plugin for PM4
 ...
