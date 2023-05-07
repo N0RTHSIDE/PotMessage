@@ -1,4 +1,4 @@
-# PotMessage
+# Pot Message
 A basic plugin that shows pots on a kill built for PM4 & PM3 servers.
 
 
